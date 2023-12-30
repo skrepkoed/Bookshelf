@@ -39,7 +39,7 @@ public class BookController {
         return "redirect:/books";
     }
 
-    @GetMapping("/showUpdateForm")
+    @GetMapping("/showUpdateBookForm")
     public ModelAndView showUpdateForm(@RequestParam Long bookId){
         ModelAndView mav = new ModelAndView("add-book-form");
         Optional<Book> optionalBook= bookRepository.findById(bookId);

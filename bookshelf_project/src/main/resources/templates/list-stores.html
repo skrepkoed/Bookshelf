@@ -16,30 +16,24 @@
 <div class="container">
 
     <hr/>
-    <a th:href="@{/addBookForm}" class="btn btn-primary">Add Book</a>
+    <a th:href="@{/addStoreForm}" class="btn btn-primary">Add Store</a>
     <br/><br/>
-    <table class="table table-bordered table-striped" id="bookTable">
+    <table class="table table-bordered table-striped" id="storeTable">
 
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
-            <th>Genre</th>
-            <th>Publisher</th>
+            <th>Name</th>
+            <th>WebSite</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="book: ${books}">
-            <td th:text="${book.title}" />
-            <td th:text="${book.author}" />
-            <td th:text="${book.originYear}" />
-            <td th:text="${book.genre}" />
-            <td th:text="${book.publisher}" />
+        <tr th:each="store: ${stores}">
+            <td th:text="${store.name}" />
+            <td th:text="${store.webSite}" />
             <td>
-                <a th:href="@{/showUpdateBookForm(bookId=${book.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/showUpdateStoreForm(storeId=${store.id})}" class="btn btn-info">Update</a>
 
-                <a th:href="@{/deleteBook(bookId=${book.id})}" class="btn btn-danger ml-2">Delete</a>
+                <a th:href="@{/deleteStore(storeId=${store.id})}" class="btn btn-danger ml-2">Delete</a>
             </td>
         </tr>
         </tbody>
@@ -51,7 +45,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $("#bookTable").DataTable({
+        $("#storeTable").DataTable({
             'aoColumnDefs': [{
                 'bSortable': false,
                 'aTargets': [-1] /* 1st one, start by the right */
