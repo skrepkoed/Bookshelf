@@ -1,27 +1,34 @@
 package com.bookshelf.bookshelf_project.entity;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-@Table(name = "BOOKS")
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "books")
 @Entity
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "title",nullable = false)
-    String title;
-    @Column(name = "title", nullable = true)
-    String author;
-    @Column(name = "author", nullable = true)
-    String publisher;
-    @Column(name = "year", nullable = true)
-    int year;
-    @Column(name = "genre", nullable = false)
-    String genre;
-
+    @Column
+    private String title;
+    @Column
+    private String author;
+    @Column
+    private String publisher;
+    @Column
+    private String genre;
+    @Column
+    private int originYear;
 }

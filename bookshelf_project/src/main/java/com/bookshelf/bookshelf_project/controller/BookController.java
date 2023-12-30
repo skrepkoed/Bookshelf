@@ -27,33 +27,33 @@ public class BookController {
 
     @GetMapping("/addBookForm")
     public ModelAndView addBookForm(){
-        ModelAndView mav = new ModelAndView("add-Book-form");
-        Book Book = new Book();
-        mav.addObject("Book", Book);
+        ModelAndView mav = new ModelAndView("add-book-form");
+        Book book = new Book();
+        mav.addObject("book", book);
         return mav;
     }
 
     @PostMapping("/saveBook")
-    public String saveBook(@ModelAttribute Book Book){
-        bookRepository.save(Book);
+    public String saveBook(@ModelAttribute Book book){
+        bookRepository.save(book);
         return "redirect:/books";
     }
 
     @GetMapping("/showUpdateForm")
-    public ModelAndView showUpdateForm(@RequestParam Long BookId){
-        ModelAndView mav = new ModelAndView("add-Book-form");
-        Optional<Book> optionalBook= bookRepository.findById(BookId);
-        Book Book = new Book();
+    public ModelAndView showUpdateForm(@RequestParam Long bookId){
+        ModelAndView mav = new ModelAndView("add-book-form");
+        Optional<Book> optionalBook= bookRepository.findById(bookId);
+        Book book = new Book();
         if (optionalBook.isPresent()) {
-            Book = optionalBook.get();
+            book = optionalBook.get();
         }
-        mav.addObject("Book", Book);
+        mav.addObject("book", book);
         return mav;
     }
 
     @GetMapping("/deleteBook")
-    public String deleteBook(@RequestParam Long BookId){
-        bookRepository.deleteById(BookId);
+    public String deleteBook(@RequestParam Long bookId){
+        bookRepository.deleteById(bookId);
         return "redirect:/books";
     }
 
