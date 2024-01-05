@@ -11,12 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.bookshelf.bookshelf_project.repository.UserRepository;
 import com.bookshelf.bookshelf_project.service.CustomUserDetailsService;
-import com.bookshelf.bookshelf_project.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +26,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http ) throws Exception{
+        http.headers(headers->headers.frameOptions(frame->frame.disable()));
         http.csrf(csrf -> csrf.disable());
         return http.authorizeHttpRequests((auth)->{
             auth.requestMatchers("/register/**").permitAll();
@@ -37,6 +34,8 @@ public class WebSecurityConfig {
             auth.requestMatchers("/index").permitAll();
             auth.requestMatchers("/users").hasRole("ADMIN");
             auth.requestMatchers("/books").hasRole("USER");
+            auth.requestMatchers("/addBookForm").hasRole("USER");
+            auth.requestMatchers("/saveBook").hasRole("USER");
         }
 
         ).formLogin((form) -> form
