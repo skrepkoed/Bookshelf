@@ -35,7 +35,7 @@
     <h3>Add New Book</h3>
     <hr/>
 
-    <form th:action="@{/saveBook}" th:object="${book}" method="POST">
+    <form th:action="@{/bookshelf/{id}/saveBook(id=${currentUser.id})}" th:object="${book}" method="POST">
 
         <input type="text" th:field="*{title}" class="form-control col-4 mb-4" placeholder="Enter Title"/>
 
@@ -53,7 +53,7 @@
 
     </form>
     <hr/>
-    <a th:href="@{/books}">Back to list</a>
+    <a th:href="@{/bookshelf/{id}/books(id=${currentUser.id})}">Back to list</a>
 </div>
 
 </body>

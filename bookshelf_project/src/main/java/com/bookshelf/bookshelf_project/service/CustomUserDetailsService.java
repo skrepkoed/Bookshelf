@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookshelf.bookshelf_project.entity.User;
 import com.bookshelf.bookshelf_project.repository.UserRepository;
+import com.bookshelf.bookshelf_project.security_policy.CustomUserDetails;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
@@ -18,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException{
         User user= userRepository.findByEmail(usernameOrEmail);
         if (user!=null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail(),
+            return new CustomUserDetails(user.getId(),user.getEmail(),
             user.getPassword(),user.getRoles().stream().
             map((role)->new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()));
         }else{

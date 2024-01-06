@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/index}">Student Management System</a>
+            <a class="navbar-brand" th:href="@{/index}">Bookshelf</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -27,13 +27,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+                    </li>
             </div>
         </div>
     </nav>
 <div class="container">
 
     <hr/>
-    <a th:href="@{/addBookForm}" class="btn btn-primary">Add Book</a>
+    <a th:href="@{/bookshelf/{id}/addBook(id=${currentUser.id})}" class="btn btn-primary">Add Book</a>
     <br/><br/>
     <table class="table table-bordered table-striped" id="bookTable">
 
