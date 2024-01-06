@@ -9,6 +9,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.bookshelf.bookshelf_project.entity.Role;
 import com.bookshelf.bookshelf_project.entity.User;
 import com.bookshelf.bookshelf_project.repository.UserRepository;
 
@@ -32,7 +33,11 @@ AuthenticationSuccessHandler {
   protected void handle(HttpServletRequest request,HttpServletResponse response, 
     Authentication authentication) throws IOException {
       User user= userRepository.findByEmail(authentication.getName());
-      redirectStrategy.sendRedirect(request, response, "/bookshelf/"+user.getId()+"/books");
+      if (user.getRoles().stream().anyMatch(Role::isAdmin)) {
+        redirectStrategy.sendRedirect(request, response, "admin/books");
+      }else{
+        redirectStrategy.sendRedirect(request, response, "/bookshelf/"+user.getId()+"/books");
+      }
   }
 
 }

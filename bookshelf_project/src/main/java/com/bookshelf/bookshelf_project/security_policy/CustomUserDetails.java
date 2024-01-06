@@ -1,10 +1,8 @@
 package com.bookshelf.bookshelf_project.security_policy;
 
 import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
-
-public class CustomUserDetails extends org.springframework.security.core.userdetails.User{
+public class CustomUserDetails extends org.springframework.security.core.userdetails.User {
     private Long id;
 
     public CustomUserDetails(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {

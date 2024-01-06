@@ -25,4 +25,11 @@ public class Role {
     
     @ManyToMany(mappedBy = "roles")
     private List<User> users=new ArrayList<>();
+    
+    public boolean isAdmin(){
+        if (name.equals("ROLE_ADMIN")) {
+            return true;
+        }
+        return false;
+    }
 }

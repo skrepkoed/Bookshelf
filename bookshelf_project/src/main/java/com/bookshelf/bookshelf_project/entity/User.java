@@ -43,4 +43,8 @@ public class User {
         inverseJoinColumns ={@JoinColumn(name = "book_id",referencedColumnName = "id")}
     )
     private List<Book> userBooks=new ArrayList<>();
+
+    public String rolesAsString(){
+        return getRoles().toString();
+    }
 }

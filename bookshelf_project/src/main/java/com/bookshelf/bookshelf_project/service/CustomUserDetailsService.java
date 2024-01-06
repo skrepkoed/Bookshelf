@@ -3,9 +3,11 @@ package com.bookshelf.bookshelf_project.service;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import com.bookshelf.bookshelf_project.entity.User;
@@ -26,4 +28,5 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid Email or Password");
         }
     }
+
 }
