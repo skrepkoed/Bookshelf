@@ -57,10 +57,10 @@
             <td th:text="${book.genre}" />
             <td th:text="${book.publisher}" />
             <td>
-                <a th:href="@{/showUpdateBookForm(bookId=${book.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/bookshelf/{id}/updateBook(bookId=${book.id},id=${currentUser.id})}" class="btn btn-info">Update</a>
 
-                <a th:href="@{/deleteBook(bookId=${book.id})}" class="btn btn-danger ml-2">Delete</a>
-                <a th:href="@{/addPrice(bookId=${book.id})}" class="btn btn-alert ml-2">Add Price</a>
+                <a th:href="@{/bookshelf/{id}/deleteBook(bookId=${book.id},id=${currentUser.id})}" class="btn btn-danger ml-2">Delete</a>
+
             </td>
         </tr>
         </tbody>
