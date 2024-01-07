@@ -1,7 +1,5 @@
 package com.bookshelf.bookshelf_project.security_policy;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -41,7 +39,7 @@ public class SetupLoader implements
         user.setName("Admin");
         user.setPassword(passwordEncoder.encode("test"));
         user.setEmail("admin@admin.com");
-        user.setRoles(Arrays.asList(adminRole));
+        user.getRoles().add(adminRole);
         userRepository.save(user);
 
         alreadySetup = true;

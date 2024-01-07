@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,12 +26,12 @@ public class LogAction {
     private Long id;
 
     @Column
-    private String desription;
+    private String description;
 
     @CreationTimestamp
     private LocalDateTime dateCreated;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id",referencedColumnName="id", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    //@JoinColumn(name = "user_id",referencedColumnName="id", nullable = true)
     private User user;
 }

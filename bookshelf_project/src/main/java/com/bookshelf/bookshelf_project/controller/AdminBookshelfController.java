@@ -1,8 +1,10 @@
 package com.bookshelf.bookshelf_project.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collector;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookshelf.bookshelf_project.entity.Book;
 import com.bookshelf.bookshelf_project.entity.Item;
+import com.bookshelf.bookshelf_project.entity.LogAction;
 import com.bookshelf.bookshelf_project.entity.Role;
 import com.bookshelf.bookshelf_project.entity.Store;
 import com.bookshelf.bookshelf_project.entity.User;
 import com.bookshelf.bookshelf_project.repository.BookRepository;
 import com.bookshelf.bookshelf_project.repository.ItemRepository;
+import com.bookshelf.bookshelf_project.repository.LogActionRepository;
 import com.bookshelf.bookshelf_project.repository.RoleRepository;
 import com.bookshelf.bookshelf_project.repository.StoreRepository;
 import com.bookshelf.bookshelf_project.repository.UserRepository;
@@ -39,6 +43,8 @@ public class AdminBookshelfController {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private LogActionRepository logActionRepository;
 
     @GetMapping("/books")
     public ModelAndView getAllBooks(){
@@ -78,20 +84,33 @@ public class AdminBookshelfController {
         bookRepository.deleteById(bookId);
         return "redirect:/admin/books";
     }
+    @DeleteMapping("/deleteUser")
+    public String deleteUser(@RequestParam Long userId){
+        User user=userRepository.getReferenceById(userId);
+        user.setUserBooks(new HashSet<Book>());
+        user.setRoles(new HashSet<Role>());
+        Set<LogAction> userActions=logActionRepository.findByUser(user);
+        userActions.forEach( logaction-> logaction.setUser(null));
+        userActions.forEach(logaction->logActionRepository.save(logaction));
+        user.setLogActions(new HashSet<LogAction>());
+        userRepository.save(user);
+        userRepository.deleteById(userId);
+        return "redirect:/admin/users";
+    }
+
     @GetMapping("/makeUser")
     public String makeUser(@RequestParam Long userId){
         Role role = roleRepository.findByName("ROLE_USER");
         User user=userRepository.getReferenceById(userId);
-        user.setRoles(new ArrayList<Role>(List.of(role)));
+        user.getRoles().add(role);
         userRepository.save(user);
         return "redirect:/admin/users";
     }
     @GetMapping("/makeAdmin")
     public String makeAdmin(@RequestParam Long userId){
         Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-        Role roleUser = roleRepository.findByName("ROLE_USER");
         User user=userRepository.getReferenceById(userId);
-        user.setRoles(new ArrayList<Role>(List.of(roleAdmin,roleUser)));
+        user.getRoles().add(roleAdmin);
         userRepository.save(user);
         return "redirect:/admin/users";
     }
@@ -99,9 +118,15 @@ public class AdminBookshelfController {
     public String makeReadOnly(@RequestParam Long userId){
         Role role = roleRepository.findByName("ROLE_READ_ONLY");
         User user=userRepository.getReferenceById(userId);
-        user.setRoles(new ArrayList<Role>(List.of(role)));
+        user.getRoles().add(role);
         userRepository.save(user);
         return "redirect:/admin/users";
+    }
+    @GetMapping("/prices")
+    public ModelAndView lisrPrice(){
+        ModelAndView mav= new ModelAndView("list-price");
+         mav.addObject("items",  itemRepository.findAll());
+        return mav;
     }
 
     @GetMapping("/addPrice")
@@ -121,11 +146,32 @@ public class AdminBookshelfController {
         return mav;
     }
 
+    @GetMapping("/updatePrice")
+    public ModelAndView showUpdatePriceForm(@RequestParam Long itemId){
+        ModelAndView mav = new ModelAndView("add-price-form");
+        Optional<Item> optionalItem= itemRepository.findById(itemId);
+        Item item = new Item();
+        if (optionalItem.isPresent()) {
+            item = optionalItem.get();
+        }
+        List<Store>stores=storeRepository.findAll();
+        mav.addObject("stores", stores);
+        mav.addObject("item", item);
+        mav.addObject("book", item.getBook());
+        return mav;
+    }
+
     @PostMapping("/savePrice")
     public String savePrice(@ModelAttribute Item item, @RequestParam Long bookId) {
         item.setBook(bookRepository.getReferenceById(bookId));
         itemRepository.save(item);
-        return "redirect:/admin/books";
+        return "redirect:/admin/prices";
+    }
+    @DeleteMapping("/deletePrice")
+    public String deletePrice(@RequestParam Long itemId){
+        Item item =itemRepository.getReferenceById(itemId);
+        itemRepository.delete(item);
+        return "redirect:/admin/prices";
     }
 
     @GetMapping("/users")
@@ -133,6 +179,13 @@ public class AdminBookshelfController {
         ModelAndView mav= new ModelAndView("users");
         List<User>users=userRepository.findAll();
         mav.addObject("users",  users);
+        return mav;
+    }
+    @GetMapping("/logs")
+    public ModelAndView logs(){
+        ModelAndView mav= new ModelAndView("logs");
+        List<LogAction>logs=logActionRepository.findAll();
+        mav.addObject("logs",  logs);
         return mav;
     }
 

@@ -22,14 +22,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                     </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -58,14 +53,32 @@
             <td th:text="${book.publisher}" />
             <td>
                 <a th:href="@{/bookshelf/{id}/updateBook(bookId=${book.id},id=${currentUser.id})}" class="btn btn-info">Update</a>
-
                 <a th:href="@{/bookshelf/{id}/deleteBook(bookId=${book.id},id=${currentUser.id})}" class="btn btn-danger ml-2">Delete</a>
+                <a th:href="@{/bookshelf/{id}/markFinished(bookId=${book.id},id=${currentUser.id})}"
+                   th:if="${not book.finished}" class="btn btn-success ml-2">Mark finished</a>
+                <a th:href="@{/bookshelf/{id}/markUnFinished(bookId=${book.id},id=${currentUser.id})}"
+                   th:if="${book.finished}" class="btn btn-info ml-2">Mark Unfinished</a>
+                   <a th:href="@{/bookshelf/{id}/viewPrices(bookId=${book.id},id=${currentUser.id})}" class="btn btn-warning ml-2">Check Prices</a>
+
 
             </td>
         </tr>
         </tbody>
 
     </table>
+
+    <h3>To finish your reading list until <h3 th:text="${currentUser.deadLine}"></h3>
+    with your reading speed <h3 th:text="${currentUser.speedOfReading}"></h3> words per minute </h3>  
+    you should spend <h3 th:text="${time}"></h3> hours for reading </h3></h3>
+    <h4>Add New Reading goal</h4>
+    <hr/>
+
+    <form th:action="@{/bookshelf/{id}/addSpeed(id=${currentUser.id})}"  method="POST">
+
+        <input type="text" name="speed"  th:value="${currentUser.speedOfReading != 100 ? currentUser.speedOfReading : 100}" class="form-control col-4 mb-4" placeholder="Enter Your reading speed words/minute" />
+        <input type="date" name="myDate">
+        <button type="submit" class="btn btn-primary col-2">Submit</button>
+    </form>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

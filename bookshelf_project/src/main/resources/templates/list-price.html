@@ -1,17 +1,20 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
-    <title>Student Management System</title>
+    <title>Book Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/index}">Student Management System</a>
+            <a class="navbar-brand" th:href="@{/index}">Bookshelf</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -41,26 +44,46 @@
         </div>
     </nav>
 <div class="container">
+    <br/><br/>
+    <table class="table table-bordered table-striped" id="bookTable">
 
-    <hr/>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Price</th>
+            <th>Item</th>
+            <th>Store</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item: ${items}">
+            <td th:text="${item.id}" />
+            <td th:text="${item.price}" />
+            <td th:text="${item.book.title}" />
+            <td th:text="${item.store.name}" />
+            <td>
+                <a th:href="@{/admin/deletePrice(itemId=${item.id})}" class="btn btn-danger ml-2">Delete</a>
 
-    <h3>Add New Store</h3>
-    <hr/>
+                <a th:href="@{/admin/updatePrice(itemId=${item.id})}" class="btn btn-success ml-2">Update Price</a>
 
-    <form th:action="@{/admin/saveStore}" th:object="${store}" method="POST">
+            </td>
+        </tr>
+        </tbody>
 
-        <input type="text" th:field="*{name}" class="form-control col-4 mb-4" placeholder="Enter name"/>
-
-        <input type="text" th:field="*{webSite}" class="form-control col-4 mb-4" placeholder="Enter site"/>
-
-        <button type="submit" class="btn btn-primary col-2">Save</button>
-
-        <input type="hidden" th:field="*{id}"/>
-
-    </form>
-    <hr/>
-    <a th:href="@{/admin/stores}">Back to list</a>
+    </table>
 </div>
 
-</body>
-</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#bookTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1] /* 1st one, start by the right */
+            }]
+        });
+    })
+</script>
+</body></html>

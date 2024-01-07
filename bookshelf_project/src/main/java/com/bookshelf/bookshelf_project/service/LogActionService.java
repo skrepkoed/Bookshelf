@@ -27,7 +27,7 @@ public class LogActionService {
             logAction.setUser(user);
             userName=user.getEmail();
         }
-        logAction.setDesription(userName + " made " + request.getMethod()+" request on"
+        logAction.setDescription(userName + " made " + request.getMethod()+" request on"
         +request.getRequestURI() + " URI" );      
         logActionRepository.save(logAction);
     }

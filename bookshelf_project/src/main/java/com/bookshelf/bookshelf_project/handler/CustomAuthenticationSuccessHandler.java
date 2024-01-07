@@ -33,10 +33,13 @@ AuthenticationSuccessHandler {
   protected void handle(HttpServletRequest request,HttpServletResponse response, 
     Authentication authentication) throws IOException {
       User user= userRepository.findByEmail(authentication.getName());
+
       if (user.getRoles().stream().anyMatch(Role::isAdmin)) {
         redirectStrategy.sendRedirect(request, response, "admin/books");
-      }else{
+      }else if (user.getRoles().stream().anyMatch(Role::isUser)) {
         redirectStrategy.sendRedirect(request, response, "/bookshelf/"+user.getId()+"/books");
+      }else{
+        redirectStrategy.sendRedirect(request, response, "/index");
       }
   }
 

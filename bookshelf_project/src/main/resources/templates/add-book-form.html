@@ -19,10 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                     </li>
             </div>
         </div>
@@ -42,6 +39,8 @@
         <input type="text" th:field="*{author}" class="form-control col-4 mb-4" placeholder="Enter Author"/>
 
         <input type="text" th:field="*{originYear}" class="form-control col-4 mb-4" />
+
+        <input type="text" th:field="*{pages}" class="form-control col-4 mb-4" placeholder="Enter pages"/>
 
         <input type="text" th:field="*{genre}" class="form-control col-4 mb-4" placeholder="Enter Genre"/>
 

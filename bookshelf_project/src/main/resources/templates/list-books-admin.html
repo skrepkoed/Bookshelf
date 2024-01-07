@@ -25,8 +25,21 @@
                         <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/books}">Books</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/admin/users}">Users</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/stores}">Stores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/prices}">Prices and Items</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/logs}">Logs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -57,6 +70,8 @@
                 <a th:href="@{/admin/updateBook(bookId=${book.id})}" class="btn btn-info">Update</a>
 
                 <a th:href="@{/admin/deleteBook(bookId=${book.id})}" class="btn btn-danger ml-2">Delete</a>
+
+                <a th:href="@{/admin/addPrice(bookId=${book.id})}" class="btn btn-success ml-2">Add Price</a>
 
             </td>
         </tr>

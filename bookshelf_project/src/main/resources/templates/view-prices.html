@@ -24,59 +24,41 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/admin/books}">Books</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/admin/users}">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/admin/stores}">Stores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/admin/prices}">Prices and Items</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/admin/logs}">Logs</a>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 <div class="container">
-
-    <hr/>
-    <a th:href="@{/admin/addStoreForm}" class="btn btn-primary">Add Store</a>
     <br/><br/>
-    <table class="table table-bordered table-striped" id="storeTable">
+    <table class="table table-bordered table-striped" id="bookTable">
 
         <thead>
         <tr>
-            <th>Name</th>
-            <th>WebSite</th>
-            <th>Actions</th>
+            <th>Id</th>
+            <th>Price</th>
+            <th>Item</th>
+            <th>Store</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="store: ${stores}">
-            <td th:text="${store.name}" />
-            <td th:text="${store.webSite}" />
-            <td>
-                <a th:href="@{/admin/showUpdateStoreForm(storeId=${store.id})}" class="btn btn-info">Update</a>
-
-                <a th:href="@{/admin/deleteStore(storeId=${store.id})}" class="btn btn-danger ml-2">Delete</a>
-            </td>
+        <tr th:each="item: ${items}">
+            <td th:text="${item.id}" />
+            <td th:text="${item.price}" />
+            <td th:text="${item.book.title}" />
+            <td th:text="${item.store.name}" />
         </tr>
         </tbody>
 
     </table>
+    <hr/>
+    <a th:href="@{/bookshelf/{id}/books(id=${currentUser.id})}">Back to list</a>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $("#storeTable").DataTable({
+        $("#bookTable").DataTable({
             'aoColumnDefs': [{
                 'bSortable': false,
                 'aTargets': [-1] /* 1st one, start by the right */
@@ -84,5 +66,4 @@
         });
     })
 </script>
-
 </body></html>

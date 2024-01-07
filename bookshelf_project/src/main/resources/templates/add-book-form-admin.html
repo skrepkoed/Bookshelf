@@ -19,11 +19,24 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Login</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/admin/users}">Login</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/books}">Books</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/users}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/stores}">Stores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/prices}">Prices and Items</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/admin/logs}">Logs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -42,6 +55,8 @@
         <input type="text" th:field="*{author}" class="form-control col-4 mb-4" placeholder="Enter Author"/>
 
         <input type="text" th:field="*{originYear}" class="form-control col-4 mb-4" />
+
+        <input type="text" th:field="*{pages}" class="form-control col-4 mb-4" placeholder="Enter pages"/>
 
         <input type="text" th:field="*{genre}" class="form-control col-4 mb-4" placeholder="Enter Genre"/>
 

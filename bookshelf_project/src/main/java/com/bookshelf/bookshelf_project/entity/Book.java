@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -29,13 +30,24 @@ public class Book {
     private String genre;
     @Column
     private int originYear;
+    @Column
+    private int pages;
+    @Column
+    private boolean finished=false;
 
     @ManyToMany(mappedBy = "userBooks",fetch = FetchType.LAZY)
     private List<User> users=new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Item> items=new ArrayList<>();
+
 
     public void addUser(User user){
         getUsers().add(user);
+    }
+
+    public int wordInBook(int avWordOnPage){
+        return getPages()*avWordOnPage;
     }
     
 }

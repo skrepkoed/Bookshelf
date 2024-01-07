@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
+        <a class="navbar-brand" th:href="@{/index}">Bookshelf</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,16 @@
                     <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/list}">Students</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/books}">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/users}">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/stores}">Stores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/prices}">Prices and Items</a>
                 </li>
             </ul>
 
@@ -53,8 +62,20 @@
                     <li th:each="role : ${user.getRoles()}" th:text="${role.name}"></li>
                 </ul>
             </td>
-            <td>
-                <a th:href="@{/admin/makeAdmin(userId=${user.id})}" class="btn btn-danger ml-2">Make Admin</a>
+            <td><ul>
+                    <li> 
+                        <a th:href="@{/admin/makeAdmin(userId=${user.id})}" class="btn btn-warning ml-2">Make Admin</a>
+                    </li>
+                    <li> 
+                        <a th:href="@{/admin/makeUser(userId=${user.id})}" class="btn btn-success ml-2">Make User</a>
+                    </li>
+                    <li> 
+                        <a th:href="@{/admin/makeReadOnly(userId=${user.id})}" class="btn btn-secondary ml-2">Make Read Only</a>
+                    </li>
+                    <li> 
+                        <a th:href="@{/admin/deleteUser(userId=${user.id})}" class="btn btn-danger ml-2">Delete User</a>
+                    </li>
+                </ul>
             </td>
         </tr>
         </tbody>

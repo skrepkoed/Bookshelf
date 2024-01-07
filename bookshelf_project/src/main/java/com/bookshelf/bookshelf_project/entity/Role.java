@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,8 +15,8 @@ import lombok.Data;
 
 
 @Data
-@Entity
 @Table(name = "roles")
+@Entity
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +24,18 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
     
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users=new ArrayList<>();
     
     public boolean isAdmin(){
         if (name.equals("ROLE_ADMIN")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isUser(){
+        if (name.equals("ROLE_USER")) {
             return true;
         }
         return false;
