@@ -45,7 +45,7 @@ public class UserBookshelfController {
     @GetMapping("books")
     public ModelAndView getAllBooks(@ModelAttribute("currentUser")User currentUser){
         ModelAndView mav= new ModelAndView("list-books");
-        mav.addObject("books",  currentUser.getUserBooks());
+        mav.addObject("books",  bookRepository.findByUserId(currentUser.getId()));
         mav.addObject("time", calculateReadingTimeService.calculate(currentUser));
         return mav;
     }
@@ -63,10 +63,7 @@ public class UserBookshelfController {
     @PostMapping("/saveBook")
     public String saveBook(@ModelAttribute Book book,Principal principal ){
        User currentUser=userRepository.findByEmail(principal.getName());
-        if (book.getId()==null) {
-            currentUser.getUserBooks().add(book);
-            userRepository.save(currentUser);
-       }
+           book.setUser(currentUser);
         bookRepository.save(book);
         return "redirect:/bookshelf/"+currentUser.getId()+"/books";
     }
@@ -99,11 +96,11 @@ public class UserBookshelfController {
         return "redirect:/bookshelf/"+currentUser.getId()+"/books";
 
     }
-
+    @Transactional
     @GetMapping("/deleteBook")
     public String deleteBook(@RequestParam Long bookId,@ModelAttribute("currentUser")User currentUser){
-        currentUser.getUserBooks().remove(bookRepository.findById(bookId).get());
-        userRepository.save(currentUser);
+        itemRepository.deleteByBook(bookRepository.getReferenceById(bookId));
+        bookRepository.deleteByUser(currentUser);
         return "redirect:/bookshelf/"+currentUser.getId()+"/books";
     }
 

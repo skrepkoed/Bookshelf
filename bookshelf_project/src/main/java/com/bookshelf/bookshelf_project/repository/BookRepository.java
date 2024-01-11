@@ -8,6 +8,8 @@ import java.util.List;
 import com.bookshelf.bookshelf_project.entity.User;
 
 public interface BookRepository extends JpaRepository<Book,Long> {
-    List<Book> findByFinishedAndUsersIn(boolean finished, List<User> users);
+    List<Book> findByFinishedAndUser(boolean finished, User user);
+    List<Book> findByUserId(Long id);
+    void deleteByUser(User user);
     
 }

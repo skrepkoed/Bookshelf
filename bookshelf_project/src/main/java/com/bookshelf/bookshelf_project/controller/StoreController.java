@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookshelf.bookshelf_project.entity.Store;
+import com.bookshelf.bookshelf_project.repository.ItemRepository;
 import com.bookshelf.bookshelf_project.repository.StoreRepository;
+
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping(path = "admin/", method=RequestMethod.GET)
 public class StoreController {
     @Autowired
     private StoreRepository storeRepository;
+    @Autowired
+    private ItemRepository itemRepository;
 
     @GetMapping("/stores")
     public ModelAndView getAllStores(){
@@ -52,9 +57,10 @@ public class StoreController {
         mav.addObject("store", store);
         return mav;
     }
-
+    @Transactional
     @GetMapping("/deleteStore")
     public String deleteStore(@RequestParam Long storeId){
+        itemRepository.deleteByStore(storeRepository.getReferenceById(storeId));
         storeRepository.deleteById(storeId);
         return "redirect:/admin/stores";
     }

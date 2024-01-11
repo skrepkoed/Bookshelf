@@ -32,8 +32,8 @@ public class Item {
     @UpdateTimestamp
     private LocalDateTime lastUpdated;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
     @OneToOne

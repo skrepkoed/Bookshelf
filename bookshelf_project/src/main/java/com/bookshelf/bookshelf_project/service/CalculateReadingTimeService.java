@@ -1,11 +1,9 @@
 package com.bookshelf.bookshelf_project.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +23,8 @@ public class CalculateReadingTimeService {
     }
 
     public  float  calculate(User user){
-        Set<User> userSet= new HashSet<>();
-        userSet.add(user);
-        List<Book> nonFinishedBooks= bookRepository.findByFinishedAndUsersIn(false,List.of(user));
+        
+        List<Book> nonFinishedBooks= bookRepository.findByFinishedAndUser(false,user);
         int userSpeed=user.getSpeedOfReading();
         if (nonFinishedBooks.isEmpty()) {
             return 0;

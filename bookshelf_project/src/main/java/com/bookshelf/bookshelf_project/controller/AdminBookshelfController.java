@@ -30,6 +30,8 @@ import com.bookshelf.bookshelf_project.repository.LogActionRepository;
 import com.bookshelf.bookshelf_project.repository.RoleRepository;
 import com.bookshelf.bookshelf_project.repository.StoreRepository;
 import com.bookshelf.bookshelf_project.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 @Controller
 @RequestMapping(path = "admin/", method=RequestMethod.GET)
 public class AdminBookshelfController {
@@ -63,6 +65,9 @@ public class AdminBookshelfController {
 
     @PostMapping("/saveBook")
     public String saveBook(@ModelAttribute Book book){
+        if (book.getId()!=null) {
+            book.setUser(bookRepository.getReferenceById(book.getId()).getUser());    
+        }
         bookRepository.save(book);
         return "redirect:/admin/books";
     }
@@ -79,15 +84,22 @@ public class AdminBookshelfController {
         return mav;
     }
 
+    @Transactional
     @DeleteMapping("/deleteBook")
     public String deleteBook(@RequestParam Long bookId){
+        Book book = bookRepository.getReferenceById(bookId);
+        book.setUser(null);
+        itemRepository.deleteByBook(book);
+        bookRepository.save(book);
         bookRepository.deleteById(bookId);
         return "redirect:/admin/books";
     }
+    @Transactional
     @DeleteMapping("/deleteUser")
     public String deleteUser(@RequestParam Long userId){
         User user=userRepository.getReferenceById(userId);
-        user.setUserBooks(new HashSet<Book>());
+        bookRepository.deleteByUser(user);
+        //user.setBooks(new HashSet<Book>());
         user.setRoles(new HashSet<Role>());
         Set<LogAction> userActions=logActionRepository.findByUser(user);
         userActions.forEach( logaction-> logaction.setUser(null));
@@ -118,7 +130,8 @@ public class AdminBookshelfController {
     public String makeReadOnly(@RequestParam Long userId){
         Role role = roleRepository.findByName("ROLE_READ_ONLY");
         User user=userRepository.getReferenceById(userId);
-        user.getRoles().add(role);
+        user.getRoles().removeIf(curRole->!(curRole.getName().equals("ROLE_READ_ONLY")));
+        //user.setRoles(Set.of(role));
         userRepository.save(user);
         return "redirect:/admin/users";
     }

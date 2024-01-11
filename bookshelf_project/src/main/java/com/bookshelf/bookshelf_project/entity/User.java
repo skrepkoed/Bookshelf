@@ -43,13 +43,9 @@ public class User {
         inverseJoinColumns = {@JoinColumn(name="role_id",referencedColumnName = "id")}
     )
     private Set<Role> roles=new HashSet<>();
-    @ManyToMany(fetch = FetchType.EAGER,cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(
-        name = "users_books",
-        joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id")},
-        inverseJoinColumns ={@JoinColumn(name = "book_id",referencedColumnName = "id")}
-    )
-    private Set<Book> userBooks=new HashSet<>();
+    
+    @OneToMany( mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Book> books;
 
     @OneToMany(mappedBy = "user",cascade = {CascadeType.ALL})
     private Set<LogAction> logActions;
